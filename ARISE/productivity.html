@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ARISE | Voice To-Do</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      font-family: 'Segoe UI', sans-serif;
+      color: #e7e7e7;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      color: #3cbcd3;
+      margin-bottom: 2rem;
+    }
+
+    .mic-btn {
+      background-color: #3cbcd3;
+      color: black;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin-bottom: 2rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      max-width: 500px;
+      margin: auto;
+      text-align: left;
+    }
+
+    li {
+      background: #1a1a1a;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎤 Voice-Based To-Do List</h1>
+
+  <button class="mic-btn" onclick="startVoice()">🎙️ Tap to Speak Task</button>
+
+  <ul id="taskList">
+    <!-- Tasks will appear here -->
+  </ul>
+
+  <script>
+    function startVoice() {
+      const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-IN';
+
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const task = event.results[0][0].transcript;
+        addTask(task);
+      };
+
+      recognition.onerror = function(event) {
+        alert("❌ Voice not recognized. Try again.");
+      };
+    }
+
+    function addTask(taskText) {
+      const ul = document.getElementById('taskList');
+      const li = document.createElement('li');
+      li.textContent = taskText;
+      ul.appendChild(li);
+    }
+  </script>
+
+</body>
+</html>
